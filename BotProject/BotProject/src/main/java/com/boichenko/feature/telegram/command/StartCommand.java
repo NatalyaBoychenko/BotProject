@@ -13,6 +13,8 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -46,19 +48,17 @@ public class StartCommand extends BotCommand {
     }
 
     private static InlineKeyboardMarkup standardKeyboard() {
-        List<InlineKeyboardButton> buttons = Stream.of(INFO, SETTINGS)
-                .map(it -> InlineKeyboardButton
-                        .builder()
-                        .text(it)
-                        .callbackData(it)
-                        .build())
-                .toList();
+        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+        buttons.add(Arrays.asList(
+                InlineKeyboardButton.builder().text(INFO).callbackData("INFO").build()
+        ));
+        buttons.add(Arrays.asList(
+                InlineKeyboardButton.builder().text(SETTINGS).callbackData("SETTINGS").build()
+        ));
 
 
-        InlineKeyboardMarkup keyboard = InlineKeyboardMarkup
-                .builder()
-                .keyboard(Collections.singleton(buttons))
-                .build();
+
+        InlineKeyboardMarkup keyboard = InlineKeyboardMarkup.builder().keyboard(buttons).build();
         return keyboard;
     }
 }

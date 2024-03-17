@@ -109,8 +109,8 @@ public class Reminder extends Command {
                 InlineKeyboardButton.builder().text(CANCEL_REMINDER).callbackData("0").build()
         ));
         buttons.add(Arrays.asList(
-                InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build(),
-                InlineKeyboardButton.builder().text(HOME).callbackData(HOME).build()
+                InlineKeyboardButton.builder().text(BACK).callbackData("BACK").build(),
+                InlineKeyboardButton.builder().text(HOME).callbackData("HOME").build()
         ));
 
         InlineKeyboardMarkup keyboard = InlineKeyboardMarkup.builder().keyboard(buttons).build();

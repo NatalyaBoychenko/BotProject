@@ -104,7 +104,7 @@ public class SettingCommand {
 
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Arrays.asList(
-            InlineKeyboardButton.builder().text(ROUNDED_INDEX).callbackData("2").build()
+            InlineKeyboardButton.builder().text(ROUNDED_INDEX).callbackData("ROUNDED_INDEX").build()
         ));
         buttons.add(Arrays.asList(
                 InlineKeyboardButton.builder().text(BANK).callbackData("BANK").build()
@@ -116,7 +116,7 @@ public class SettingCommand {
                 InlineKeyboardButton.builder().text(REMINDER_TIME).callbackData("REMINDER_TIME").build()
         ));
         buttons.add(Arrays.asList(
-                InlineKeyboardButton.builder().text(HOME).callbackData(HOME).build()
+                InlineKeyboardButton.builder().text(HOME).callbackData("HOME").build()
         ));
 
 

@@ -53,7 +53,7 @@ public class Currency extends Command {
         buttons.add(Arrays.asList(
                 InlineKeyboardButton.builder()
                         .text(BACK)
-                        .callbackData(BACK)
+                        .callbackData("BACK")
                         .build()
         ));
 

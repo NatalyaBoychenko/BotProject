@@ -34,7 +34,7 @@ public class RoundRate  extends Command {
                 InlineKeyboardButton.builder().text("4").callbackData("4").build()
         ));
         buttons.add(Arrays.asList(
-                InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build()
+                InlineKeyboardButton.builder().text(BACK).callbackData("BACK").build()
         ));
 
 
