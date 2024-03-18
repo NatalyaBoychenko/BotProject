@@ -4,6 +4,7 @@ import com.boichenko.feature.currency.MonoBankCurrencyService;
 import com.boichenko.feature.currency.NBUCurrencyService;
 import com.boichenko.feature.currency.PrivatBankCurrencyService;
 import com.boichenko.feature.telegram.command.Command;
+import com.boichenko.feature.telegram.emoji.Icon;
 import com.boichenko.logic.ChatSettings;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -24,9 +25,9 @@ public class Reminder extends Command {
     private String text;
 
 
-    public Reminder() {
-        super("reminder");
-    }
+//    public Reminder() {
+//        super("reminder");
+//    }
 
     public void sendRemainder(ChatSettings settings, String message, int time){
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -55,8 +56,8 @@ public class Reminder extends Command {
                 InlineKeyboardButton.builder().text(CANCEL_REMINDER).callbackData("0").build()
         ));
         buttons.add(Arrays.asList(
-                InlineKeyboardButton.builder().text(BACK).callbackData("BACK").build(),
-                InlineKeyboardButton.builder().text(HOME).callbackData("HOME").build()
+                InlineKeyboardButton.builder().text(Icon.BACK.get()).callbackData("BACK").build(),
+                InlineKeyboardButton.builder().text(Icon.HOME.get()).callbackData("HOME").build()
         ));
 
         InlineKeyboardMarkup keyboard = InlineKeyboardMarkup.builder().keyboard(buttons).build();

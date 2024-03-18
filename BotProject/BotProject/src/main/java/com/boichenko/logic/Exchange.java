@@ -30,11 +30,11 @@ public class Exchange {
 
 
     public String printMessage() {
-        String template = new String("""
+        String template = """
                         Курс в ${bank}: ${currency}/UAN 
                         \nПокупка: ${buy} 
                         \nПродаж: ${sell}
-                        """.getBytes(), StandardCharsets.UTF_8);
+                        """;
 
 
 

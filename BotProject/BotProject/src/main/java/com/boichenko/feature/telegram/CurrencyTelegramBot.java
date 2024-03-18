@@ -61,7 +61,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         if (update.hasCallbackQuery()) {
             ChatSettings settings = new ChatSettings();
             handleKeyboard(update, responseMessage);
-            handleSettingKeyboard(update, responseMessage);
+            handleSettingKeyboard(update, responseMessage, settings);
             handleButtons(update, responseMessage, settings);
 
         } else {
@@ -89,44 +89,51 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
         } else  if (callbackQuery.equals(SETTINGS)) {
             responseMessage.setChatId(chatId);
-            responseMessage.setText(new String("Налаштування".getBytes(), StandardCharsets.UTF_8));
+//            responseMessage.setText(new String("Налаштування".getBytes(), StandardCharsets.UTF_8));
+            responseMessage.setText("Налаштування");
             responseMessage.setReplyMarkup(settingCommand.setKeyboard());
         }
     }
 
-    private void handleSettingKeyboard(Update update, SendMessage responseMessage) {
+    private void handleSettingKeyboard(Update update, SendMessage responseMessage, ChatSettings settings) {
         String callbackQuery = update.getCallbackQuery().getData();
         Long chatId = update.getCallbackQuery().getMessage().getChatId();
 
         if (callbackQuery.equals("ROUNDED_INDEX")) {
             responseMessage.setChatId(chatId);
-            responseMessage.setText(new String("Виберіть кількість чисел після коми".getBytes(), StandardCharsets.UTF_8));
+//            responseMessage.setText(new String("Виберіть кількість чисел після коми".getBytes(), StandardCharsets.UTF_8));
+            responseMessage.setText("Виберіть кількість чисел після коми");
             responseMessage.setReplyMarkup(new RoundRate().setKeyboard());
 
         } else if (callbackQuery.equals("BANK")) {
             responseMessage.setChatId(chatId);
-            responseMessage.setText(new String("Банк".getBytes(), StandardCharsets.UTF_8));
-            responseMessage.setReplyMarkup(new Bank().bankKeyboard());
+//            responseMessage.setText(new String("Банк".getBytes(), StandardCharsets.UTF_8));
+            responseMessage.setText("Банк");
+            responseMessage.setReplyMarkup(new Bank().bankKeyboard(settings));
 
         } else if (callbackQuery.equals("CURRENCY")) {
             responseMessage.setChatId(chatId);
-            responseMessage.setText(new String("Валюта".getBytes(), StandardCharsets.UTF_8));
+//            responseMessage.setText(new String("Валюта".getBytes(), StandardCharsets.UTF_8));
+            responseMessage.setText("Валюта");
             responseMessage.setReplyMarkup(new Currency().currencyKeyboard());
 
         } else if (callbackQuery.equals("BACK")) {
             String s = new String(update.getCallbackQuery().getData().getBytes(), StandardCharsets.UTF_16);
             responseMessage.setChatId(chatId);
-            responseMessage.setText(new String("Налаштування".getBytes(), StandardCharsets.UTF_8));
+//            responseMessage.setText(new String("Налаштування".getBytes(), StandardCharsets.UTF_8));
+            responseMessage.setText("Налаштування");
             responseMessage.setReplyMarkup(settingCommand.setKeyboard());
 
         } else if (callbackQuery.equals("HOME")) {
             responseMessage.setChatId(chatId);
-            responseMessage.setText(new String("Виберіть одну зі дій".getBytes(), StandardCharsets.UTF_8));
+//            responseMessage.setText(new String("Виберіть одну зі дій".getBytes(), StandardCharsets.UTF_8));
+            responseMessage.setText("Виберіть одну зі дій");
             responseMessage.setReplyMarkup(standardKeyboard());
 
         } else if (callbackQuery.equals("REMINDER_TIME")) {
             responseMessage.setChatId(chatId);
-            responseMessage.setText(new String("Виберіть час сповіщення (у годинах)".getBytes(), StandardCharsets.UTF_8));
+//            responseMessage.setText(new String("Виберіть час сповіщення (у годинах)".getBytes(), StandardCharsets.UTF_8));
+            responseMessage.setText("Виберіть час сповіщення (у годинах)");
             responseMessage.setReplyMarkup(reminder.remainderKeyboard());
 
         }
@@ -149,7 +156,8 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private static void echoResponse(Update update, SendMessage responseMessage) {
         String message = new String(update.getMessage().getText().getBytes(), StandardCharsets.UTF_8);
-        String response = new String(("Ви ввели: " + message).getBytes(), StandardCharsets.UTF_8);
+//        String response = new String(("Ви ввели: " + message).getBytes(), StandardCharsets.UTF_8);
+        String response = ("Ви ввели: " + message);
 
         responseMessage.setText(response);
         responseMessage.setChatId(update.getMessage().getChatId());

@@ -1,6 +1,7 @@
 package com.boichenko.feature.telegram.command.settings;
 
 import com.boichenko.feature.telegram.command.Command;
+import com.boichenko.feature.telegram.emoji.Icon;
 import com.boichenko.logic.ChatSettings;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -16,9 +17,9 @@ public class RoundRate  extends Command {
 
 
 
-    public RoundRate() {
-        super("round");
-    }
+//    public RoundRate() {
+//        super("round");
+//    }
 
 
     public InlineKeyboardMarkup setKeyboard() {
@@ -33,7 +34,7 @@ public class RoundRate  extends Command {
                 InlineKeyboardButton.builder().text("4").callbackData("4").build()
         ));
         buttons.add(Arrays.asList(
-                InlineKeyboardButton.builder().text(BACK).callbackData("BACK").build()
+                InlineKeyboardButton.builder().text(Icon.BACK.get()).callbackData("BACK").build()
         ));
 
 
@@ -52,17 +53,17 @@ public class RoundRate  extends Command {
             case "3": {
                 //появляется галочка на кнопке
                 settings.setRoundDigit(3);
-                System.out.println("input 3");
+                System.out.println("answer: " + answer);
                 break;
             }
             case "4": {
                 settings.setRoundDigit(4);
-                System.out.println("input 4");
+                System.out.println("answer: " + answer);
                 break;
             }
             default: {
                 settings.setRoundDigit(2);
-                System.out.println("input 2");
+                System.out.println("answer: " + answer);
                 break;
             }
 

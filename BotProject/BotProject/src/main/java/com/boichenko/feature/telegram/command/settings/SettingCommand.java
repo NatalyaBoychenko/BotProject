@@ -1,5 +1,6 @@
 package com.boichenko.feature.telegram.command.settings;
 
+import com.boichenko.feature.telegram.emoji.Icon;
 import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -30,7 +31,7 @@ public class SettingCommand {
                 InlineKeyboardButton.builder().text(REMINDER_TIME).callbackData("REMINDER_TIME").build()
         ));
         buttons.add(Arrays.asList(
-                InlineKeyboardButton.builder().text(HOME).callbackData("HOME").build()
+                InlineKeyboardButton.builder().text(Icon.HOME.get()).callbackData("HOME").build()
         ));
 
 
