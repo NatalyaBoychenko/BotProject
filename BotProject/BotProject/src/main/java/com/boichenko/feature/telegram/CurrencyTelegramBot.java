@@ -43,7 +43,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         currency = new Currency();
 
 //        register(new StartCommand());
-//        register(new HelpCommand());
+
     }
 
     @Override
@@ -59,10 +59,10 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         SendMessage responseMessage = new SendMessage();
 
         if (update.hasCallbackQuery()) {
-
+            ChatSettings settings = new ChatSettings();
             handleKeyboard(update, responseMessage);
             handleSettingKeyboard(update, responseMessage);
-            handleButtons(update, responseMessage);
+            handleButtons(update, responseMessage, settings);
 
         } else {
             echoResponse(update, responseMessage);
@@ -86,10 +86,6 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             responseMessage.setChatId(chatId);
             responseMessage.setText(exchange.printMessage());
             responseMessage.setReplyMarkup(standardKeyboard());
-
-//            System.out.println("Hello");
-
-
 
         } else  if (callbackQuery.equals(SETTINGS)) {
             responseMessage.setChatId(chatId);
@@ -119,7 +115,6 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
         } else if (callbackQuery.equals("BACK")) {
             String s = new String(update.getCallbackQuery().getData().getBytes(), StandardCharsets.UTF_16);
-            System.out.println("callbackQuery = " + s);
             responseMessage.setChatId(chatId);
             responseMessage.setText(new String("Налаштування".getBytes(), StandardCharsets.UTF_8));
             responseMessage.setReplyMarkup(settingCommand.setKeyboard());
@@ -137,17 +132,17 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    private void handleButtons(Update update, SendMessage responseMessage) {
+    private void handleButtons(Update update, SendMessage responseMessage, ChatSettings settings) {
         String callbackQuery = update.getCallbackQuery().getData();
 
         if (callbackQuery.equals("privat") || callbackQuery.equals("mono") || callbackQuery.equals("nbu")) {
-            bankName.handleCallback(update);
+            bankName.handleCallback(settings, update);
             System.out.println("choosen bank");
         } else if (callbackQuery.equals("2") || callbackQuery.equals("3") || callbackQuery.equals("4")) {
-            roundRate.handleCallback(update);
+            roundRate.handleCallback(settings, update);
             System.out.println("choosen rounded index");
         } else if (callbackQuery.equals("EUR") || callbackQuery.equals("USD")) {
-            currency.handleCallback(update);
+            currency.handleCallback(settings, update);
             System.out.println("choosen currency");
         }
     }

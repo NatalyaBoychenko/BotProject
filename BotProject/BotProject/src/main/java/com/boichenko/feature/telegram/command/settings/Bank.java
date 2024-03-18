@@ -17,34 +17,13 @@ import java.util.List;
 import static com.boichenko.feature.telegram.BotConstants.BACK;
 
 public class Bank extends Command {
-    ChatSettings settings = new ChatSettings();
 
     public Bank() {
         super("Bank");
     }
 
-    public String getCurrencyButton(Currency saved, Currency current){
-    return saved == current ? current + "✅" : current.toString();
-}
+
     public InlineKeyboardMarkup bankKeyboard(){
-//        List<InlineKeyboardButton> buttons = Stream.of(
-//                new String("ПриватБанк".getBytes(), StandardCharsets.UTF_8),
-//                new String("МоноБанк".getBytes(), StandardCharsets.UTF_8),
-//                new String("НБУ".getBytes(), StandardCharsets.UTF_8),
-//                        BACK)
-//                .map(it -> InlineKeyboardButton
-//                        .builder()
-//                        .text(it)
-//                        .callbackData(it)
-//                        .build())
-//                .toList();
-//
-//
-//        InlineKeyboardMarkup keyboard = InlineKeyboardMarkup
-//                .builder()
-//                .keyboard(Collections.singleton(buttons))
-//                .build();
-//        return keyboard;
 
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Arrays.asList(
@@ -79,7 +58,7 @@ public class Bank extends Command {
     }
 
     @Override
-    public void handleCallback(Update update) {
+    public void handleCallback(ChatSettings settings, Update update) {
         String answer = update.getCallbackQuery().getData();
 
 
@@ -101,8 +80,5 @@ public class Bank extends Command {
         }
     }
 
-    @Override
-    public void handleCallback(String update) {
 
-    }
 }

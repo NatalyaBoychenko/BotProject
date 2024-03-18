@@ -15,27 +15,12 @@ import static com.boichenko.feature.currency.dto.CurrencyItem.USD;
 import static com.boichenko.feature.telegram.BotConstants.BACK;
 
 public class Currency extends Command {
-    ChatSettings settings = new ChatSettings();
 
     public Currency() {
         super("currency");
     }
 
     public InlineKeyboardMarkup currencyKeyboard(){
-//        List<InlineKeyboardButton> buttons = Stream.of( "USD", "EUR", BACK)
-//                .map(it -> InlineKeyboardButton
-//                        .builder()
-//                        .text(it)
-//                        .callbackData(it)
-//                        .build())
-//                .toList();
-//
-//
-//        InlineKeyboardMarkup keyboard = InlineKeyboardMarkup
-//                .builder()
-//                .keyboard(Collections.singleton(buttons))
-//                .build();
-//        return keyboard;
 
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Arrays.asList(
@@ -64,7 +49,7 @@ public class Currency extends Command {
     }
 
     @Override
-    public void handleCallback(Update update) {
+    public void handleCallback(ChatSettings settings, Update update) {
         String answer = update.getCallbackQuery().getData();
 
         switch (answer){
@@ -83,8 +68,5 @@ public class Currency extends Command {
         }
     }
 
-    @Override
-    public void handleCallback(String update) {
 
-    }
 }

@@ -6,8 +6,8 @@ import java.util.List;
 
 public class BotConstants {
 
-    public static final String BOT_NAME = "name";
-    public static final String BOT_TOKEN = "token";
+    public static final String BOT_NAME = "NatBoiCurBot";
+    public static final String BOT_TOKEN = "6412532350:AAHp0kMrq78YDNXWT6M2zMOsgceuLDWauk8";
     public static final String PRIVAT_URL = "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5";
     public static final String MONO_URL = "https://api.monobank.ua/bank/currency";
     public static final String NBU_URL = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
@@ -21,6 +21,6 @@ public class BotConstants {
     public static final String  BACK = new String( "Назад".getBytes(), StandardCharsets.UTF_8);
     public static final String HOME = new String("На головну".getBytes(), StandardCharsets.UTF_8);
     public static final String CANCEL_REMINDER = new String("Вимкнути сповіщення".getBytes(), StandardCharsets.UTF_8);
-    public static final String  START = "START";
+
 
 }
