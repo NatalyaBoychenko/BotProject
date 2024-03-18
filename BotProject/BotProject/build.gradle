@@ -20,6 +20,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     // https://mvnrepository.com/artifact/org.telegram/telegrambotsextensions
     implementation group: 'org.telegram', name: 'telegrambotsextensions', version: '6.9.7.1'
+    // https://mvnrepository.com/artifact/com.vdurmont/emoji-java
+    implementation group: 'com.vdurmont', name: 'emoji-java', version: '5.1.1'
+
 
 
 }

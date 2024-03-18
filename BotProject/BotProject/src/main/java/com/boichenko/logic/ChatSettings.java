@@ -35,25 +35,25 @@ public class ChatSettings {
         this.currency = currency;
     }
 
-    public String getDefault() {
-//        CurrencyItem currency = CurrencyItem.valueOf("USD");
-//        double currencyBuyRate =privat.getBuyRate(currency);
-//        double currencySellRate = privat.getSellRate(currency);
-//        String prettyText = new RoundRate().roundRate(currencyBuyRate, currencySellRate, currency, 2);
-
-        String template = new String("""
-                        Курс в ПриватБанк: USD/UAN 
-                        \nПокупка: ${buy} 
-                        \nПродаж: ${sell}
-                        """.getBytes(), StandardCharsets.UTF_8);
-
-        String roundedBuyRate = String.format("%.2f", privat.getBuyRate(USD));
-        String roundedSellRate = String.format("%.2f", privat.getSellRate(USD));
-
-
-        return template
-                .replace("${buy}", roundedBuyRate + "")
-                .replace("${sell}", roundedSellRate + "");
-
-    }
+//    public String getDefault() {
+////        CurrencyItem currency = CurrencyItem.valueOf("USD");
+////        double currencyBuyRate =privat.getBuyRate(currency);
+////        double currencySellRate = privat.getSellRate(currency);
+////        String prettyText = new RoundRate().roundRate(currencyBuyRate, currencySellRate, currency, 2);
+//
+//        String template = new String("""
+//                        Курс в ПриватБанк: USD/UAN
+//                        \nПокупка: ${buy}
+//                        \nПродаж: ${sell}
+//                        """.getBytes(), StandardCharsets.UTF_8);
+//
+//        String roundedBuyRate = String.format("%.2f", privat.getBuyRate(USD));
+//        String roundedSellRate = String.format("%.2f", privat.getSellRate(USD));
+//
+//
+//        return template
+//                .replace("${buy}", roundedBuyRate + "")
+//                .replace("${sell}", roundedSellRate + "");
+//
+//    }
 }

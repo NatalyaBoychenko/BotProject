@@ -76,15 +76,22 @@ public class RoundRate  extends Command {
         String answer = update.getCallbackQuery().getData();
 
         switch (answer){
-            case "3":
+            case "3": {
                 //появляется галочка на кнопке
                 settings.setRoundDigit(3);
                 System.out.println("input 3");
-            case "4":
+                break;
+            }
+            case "4": {
                 settings.setRoundDigit(4);
                 System.out.println("input 4");
-            default:
+                break;
+            }
+            default: {
                 settings.setRoundDigit(2);
+                System.out.println("input 2");
+                break;
+            }
 
         }
     }

@@ -48,8 +48,8 @@ public class Exchange {
                         \nПродаж: ${sell}
                         """.getBytes(), StandardCharsets.UTF_8);
 
-        String roundedBuyRate = String.format("%.2f", privat.getBuyRate(USD));
-        String roundedSellRate = String.format("%.2f", privat.getSellRate(USD));
+        String roundedBuyRate = getBuyRate();
+        String roundedSellRate = getSellRate();
 
 
         return template
@@ -72,9 +72,11 @@ public class Exchange {
             case "nbu":
                 roundedBuy = String.valueOf(round.round(nbu.getBuyRate(settings.getCurrency())));
 //                roundedSell = String.valueOf(round.round(nbu.getSellRate(USD)));
+                break;
             default:
                 roundedBuy = String.valueOf(round.round(privat.getBuyRate(settings.getCurrency())));
 //                roundedSell = String.valueOf(round.round(privat.getSellRate(USD)));
+                break;
         }
         return roundedBuy;
     }
@@ -90,9 +92,11 @@ public class Exchange {
             case "nbu":
 //                roundedBuy = String.valueOf(round.round(nbu.getBuyRate(USD)));
                 roundedSell = String.valueOf(round.round(nbu.getSellRate(settings.getCurrency())));
+                break;
             default:
 //                roundedBuy = String.valueOf(round.round(privat.getBuyRate(USD)));
                 roundedSell = String.valueOf(round.round(privat.getSellRate(settings.getCurrency())));
+                break;
         }
         return roundedSell;
     }

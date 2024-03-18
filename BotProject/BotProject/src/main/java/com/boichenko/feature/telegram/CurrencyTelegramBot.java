@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import com.vdurmont.emoji.EmojiParser;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -86,6 +87,10 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
             responseMessage.setText(exchange.printMessage());
             responseMessage.setReplyMarkup(standardKeyboard());
 
+//            System.out.println("Hello");
+
+
+
         } else  if (callbackQuery.equals(SETTINGS)) {
             responseMessage.setChatId(chatId);
             responseMessage.setText(new String("Налаштування".getBytes(), StandardCharsets.UTF_8));
@@ -100,7 +105,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         if (callbackQuery.equals("ROUNDED_INDEX")) {
             responseMessage.setChatId(chatId);
             responseMessage.setText(new String("Виберіть кількість чисел після коми".getBytes(), StandardCharsets.UTF_8));
-            responseMessage.setReplyMarkup(roundRate.setKeyboard());
+            responseMessage.setReplyMarkup(new RoundRate().setKeyboard());
 
         } else if (callbackQuery.equals("BANK")) {
             responseMessage.setChatId(chatId);

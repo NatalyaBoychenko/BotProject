@@ -68,13 +68,17 @@ public class Currency extends Command {
         String answer = update.getCallbackQuery().getData();
 
         switch (answer){
-            case "EUR":
+            case "EUR": {
                 //появляется галочка на кнопке
                 settings.setCurrency(EUR);
+                System.out.println("from handle method eur");
                 break;
-            default:
+            }
+            default: {
                 settings.setCurrency(USD);
+                System.out.println("from handle method usd");
                 break;
+            }
 
         }
     }

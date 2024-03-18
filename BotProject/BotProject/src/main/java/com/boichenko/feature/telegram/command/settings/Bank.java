@@ -82,18 +82,22 @@ public class Bank extends Command {
     public void handleCallback(Update update) {
         String answer = update.getCallbackQuery().getData();
 
-        switch (answer){
-            case "mono":
-                //появляется галочка на кнопке
-                settings.setBank(new MonoBankCurrencyService());
-                break;
-            case "nbu":
-                settings.setBank(new NBUCurrencyService());
-                break;
-            default:
-                settings.setBank(new PrivatBankCurrencyService());
-                break;
 
+        switch (answer) {
+            case "mono" ->
+                //появляется галочка на кнопке
+            {
+                settings.setBank(new MonoBankCurrencyService());
+                System.out.println("from handle method mono");
+            }
+            case "nbu" -> {
+                settings.setBank(new NBUCurrencyService());
+                System.out.println("from handle method nbu");
+            }
+            default -> {
+                settings.setBank(new PrivatBankCurrencyService());
+                System.out.println("from handle method privat");
+            }
         }
     }
 
