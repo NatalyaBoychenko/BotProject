@@ -140,7 +140,7 @@ private Savingettings savingSettings;
             responseMessage.setChatId(chatId);
 //            responseMessage.setText(new String("Валюта".getBytes(), StandardCharsets.UTF_8));
             responseMessage.setText("Валюта");
-            responseMessage.setReplyMarkup(new Currency().currencyKeyboard());
+            responseMessage.setReplyMarkup(new Currency().currencyKeyboard(settings, update));
 
 
         } else if (callbackQuery.equals("BACK")) {

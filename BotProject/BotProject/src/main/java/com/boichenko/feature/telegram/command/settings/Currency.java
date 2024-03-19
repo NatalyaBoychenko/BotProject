@@ -22,19 +22,26 @@ public class Currency extends Command {
 //    public Currency() {
 //        super("currency");
 //    }
+private String getCurrencyButton(ChatSettings settings, String name, Update update){
 
-    public InlineKeyboardMarkup currencyKeyboard(){
+     return settings.getCurrencies().contains(CurrencyItem.valueOf(name)) ?
+            (Icon.CHECK.get() + name) : name.toString();
+
+     }
+
+
+    public InlineKeyboardMarkup currencyKeyboard(ChatSettings settings, Update update){
 
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Arrays.asList(
                 InlineKeyboardButton.builder()
-                        .text(USD.name() + " " + Icon.DOLLAR.get())
+                        .text( getCurrencyButton(settings, USD.name() , update))
                         .callbackData(USD.name())
                         .build()
         ));
         buttons.add(Arrays.asList(
                 InlineKeyboardButton.builder()
-                        .text(USD.name() + " " + Icon.EURO.get())
+                        .text( getCurrencyButton(settings, EUR.name() , update))
                         .callbackData(EUR.name())
                         .build()
         ));
