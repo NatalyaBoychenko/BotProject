@@ -3,7 +3,11 @@ package com.boichenko.logic;
 import com.boichenko.feature.currency.MonoBankCurrencyService;
 import com.boichenko.feature.currency.NBUCurrencyService;
 import com.boichenko.feature.currency.PrivatBankCurrencyService;
+import com.boichenko.feature.currency.dto.CurrencyItem;
+import com.boichenko.feature.currency.dto.CurrencyPrivatItem;
+import com.boichenko.feature.telegram.command.settings.Bank;
 import com.boichenko.feature.telegram.command.settings.RoundRate;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.math.BigDecimal;
@@ -11,58 +15,65 @@ import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static com.boichenko.feature.currency.dto.CurrencyItem.USD;
 
 public class Exchange {
-    Update update;
-    PrivatBankCurrencyService privat = new PrivatBankCurrencyService();
-     MonoBankCurrencyService mono = new MonoBankCurrencyService();
-     NBUCurrencyService nbu = new NBUCurrencyService();
 
-    ChatSettings settings = new ChatSettings(
-            2,
-            privat,
-            0,
-            USD
-    );
-     RoundRate round = new RoundRate();
-
-
-    public String printMessage() {
-        String template = """
-                        Курс в ${bank}: ${currency}/UAN 
-                        \nПокупка: ${buy} 
-                        \nПродаж: ${sell}
-                        """;
+    public String printMessage(ChatSettings settings) {
 
 
 
-        return template
-                .replace("${bank}", settings.getBank().getName())
-                .replace("${currency}", settings.getCurrency().name())
-                .replace("${buy}", getRoundedRate().get(0) + "")
-                .replace("${sell}", getRoundedRate().get(1) + "");
+        StringBuilder result = new StringBuilder();
+
+
+        for (int i = 0; i < settings.getCurrencies().size(); i++) {
+
+            result.append("Курс в " + settings.getBank().getName() + "\n");
+            result.append(settings.getCurrencies().get(i) + "/UAN");
+            result.append("\nПокупка: " + getRoundedBuyRate(settings).get(i));
+            result.append("\nПродаж: " + getRoundedSellRate(settings).get(i));
+            result.append("\n\n");
+        }
+
+        return result.toString();
     }
 
-
-
-    private List<BigDecimal> getRoundedRate() {
+    private List<BigDecimal> getRoundedBuyRate(ChatSettings settings) {
 
         List<BigDecimal> roundedRate = new ArrayList<>();
+        BigDecimal roundedBuy = new BigDecimal(0);
 
-        BigDecimal roundedBuy = BigDecimal.valueOf(
-                        settings.getBank().getBuyRate(settings.getCurrency()))
-                .setScale(settings.getRoundDigit(), RoundingMode.HALF_UP);
+        for (CurrencyItem currency : settings.getCurrencies()) {
 
-        BigDecimal roundedSell = BigDecimal.valueOf(
-                        settings.getBank().getSellRate(settings.getCurrency()))
-                .setScale(settings.getRoundDigit(), RoundingMode.HALF_UP);
-
-        roundedRate.add(roundedBuy);
-        roundedRate.add(roundedSell);
+            roundedBuy = BigDecimal.valueOf(
+                            settings.getBank().getBuyRate(currency))
+                    .setScale(settings.getRoundDigit(), RoundingMode.HALF_UP);
+            roundedRate.add(roundedBuy);
+        }
 
         return roundedRate;
 
     }
+
+    private List<BigDecimal> getRoundedSellRate(ChatSettings settings) {
+
+        List<BigDecimal> roundedRate = new ArrayList<>();
+        BigDecimal roundedSell = new BigDecimal(0);
+
+        for (CurrencyItem currency : settings.getCurrencies()) {
+
+            roundedSell = BigDecimal.valueOf(
+                            settings.getBank().getSellRate(currency))
+                    .setScale(settings.getRoundDigit(), RoundingMode.HALF_UP);
+            roundedRate.add(roundedSell);
+        }
+
+        return roundedRate;
+
+    }
+
+
 }

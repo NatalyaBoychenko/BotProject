@@ -5,6 +5,7 @@ import com.boichenko.feature.currency.PrivatBankCurrencyService;
 import com.boichenko.feature.telegram.command.settings.*;
 import com.boichenko.logic.ChatSettings;
 import com.boichenko.logic.Exchange;
+import com.boichenko.logic.Savingettings;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -26,21 +27,22 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     private RoundRate roundRate;
     private SettingCommand settingCommand;
     private Reminder reminder;
-    private ChatSettings settings;
+
     private Exchange exchange = new Exchange();
     private Bank bankName;
     private Currency currency;
+private Savingettings savingSettings;
 
-
-    public CurrencyTelegramBot() {
+    public CurrencyTelegramBot(Savingettings savingSettings) {
         super(BOT_TOKEN);
         currencyService = new PrivatBankCurrencyService();
         roundRate = new RoundRate();
         settingCommand = new SettingCommand();
         reminder = new Reminder();
-        settings = new ChatSettings();
+
         bankName = new Bank();
         currency = new Currency();
+        this.savingSettings = savingSettings;
 
 //        register(new StartCommand());
 
@@ -59,10 +61,12 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         SendMessage responseMessage = new SendMessage();
 
         if (update.hasCallbackQuery()) {
-            ChatSettings settings = new ChatSettings();
-            handleKeyboard(update, responseMessage);
+            long chatId = update.getCallbackQuery().getMessage().getChatId();
+            ChatSettings settings = savingSettings.containsSettingsForConcreteUser(chatId) ?
+                    savingSettings.getSettingForConcreteUser(chatId) : ChatSettings.getDefaultSettings(chatId);
+            handleKeyboard(update, settings, responseMessage);
             handleSettingKeyboard(update, responseMessage, settings);
-            handleButtons(update, responseMessage, settings);
+            handleButtons(update, responseMessage, savingSettings, settings);
 
         } else {
             echoResponse(update, responseMessage);
@@ -78,13 +82,13 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
 
 
-    private void handleKeyboard(Update update, SendMessage responseMessage) {
+    private void handleKeyboard(Update update, ChatSettings settings, SendMessage responseMessage) {
         String callbackQuery = update.getCallbackQuery().getData();
         Long chatId = update.getCallbackQuery().getMessage().getChatId();
 
         if (callbackQuery.equals(INFO)) {
             responseMessage.setChatId(chatId);
-            responseMessage.setText(exchange.printMessage());
+            responseMessage.setText(exchange.printMessage(settings));
             responseMessage.setReplyMarkup(standardKeyboard());
 
         } else  if (callbackQuery.equals(SETTINGS)) {
@@ -139,17 +143,17 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    private void handleButtons(Update update, SendMessage responseMessage, ChatSettings settings) {
+    private void handleButtons(Update update, SendMessage responseMessage, Savingettings savedSettings, ChatSettings settings) {
         String callbackQuery = update.getCallbackQuery().getData();
 
         if (callbackQuery.equals("privat") || callbackQuery.equals("mono") || callbackQuery.equals("nbu")) {
-            bankName.handleCallback(settings, update);
+            bankName.handleCallback(settings, savedSettings, update);
             System.out.println("choosen bank");
         } else if (callbackQuery.equals("2") || callbackQuery.equals("3") || callbackQuery.equals("4")) {
-            roundRate.handleCallback(settings, update);
+            roundRate.handleCallback(settings, savedSettings, update);
             System.out.println("choosen rounded index");
         } else if (callbackQuery.equals("EUR") || callbackQuery.equals("USD")) {
-            currency.handleCallback(settings, update);
+            currency.handleCallback(settings, savedSettings, update);
             System.out.println("choosen currency");
         }
     }

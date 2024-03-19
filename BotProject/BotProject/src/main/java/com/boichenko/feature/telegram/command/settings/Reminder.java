@@ -6,6 +6,7 @@ import com.boichenko.feature.currency.PrivatBankCurrencyService;
 import com.boichenko.feature.telegram.command.Command;
 import com.boichenko.feature.telegram.emoji.Icon;
 import com.boichenko.logic.ChatSettings;
+import com.boichenko.logic.Savingettings;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -68,7 +69,7 @@ public class Reminder extends Command {
 
 
     @Override
-    public void handleCallback(ChatSettings settings, Update update) {
+    public void handleCallback(ChatSettings settings, Savingettings savedSettings, Update update) {
         String answer = update.getCallbackQuery().getData();
 
         switch (answer){

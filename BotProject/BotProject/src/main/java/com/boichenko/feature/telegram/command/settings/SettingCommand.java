@@ -16,7 +16,6 @@ public class SettingCommand {
 
     public InlineKeyboardMarkup setKeyboard() {
 
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Arrays.asList(
             InlineKeyboardButton.builder().text(ROUNDED_INDEX).callbackData("ROUNDED_INDEX").build()

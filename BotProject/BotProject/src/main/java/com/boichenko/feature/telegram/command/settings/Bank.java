@@ -6,6 +6,7 @@ import com.boichenko.feature.currency.PrivatBankCurrencyService;
 import com.boichenko.feature.telegram.command.Command;
 import com.boichenko.feature.telegram.emoji.Icon;
 import com.boichenko.logic.ChatSettings;
+import com.boichenko.logic.Savingettings;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -65,23 +66,25 @@ private String getBankButton(ChatSettings setting, String name){
     }
 
     @Override
-    public void handleCallback(ChatSettings settings, Update update) {
+    public void handleCallback(ChatSettings settings, Savingettings savedSettings, Update update) {
         String answer = update.getCallbackQuery().getData();
 
 
         switch (answer) {
             case "mono" ->
-                //появляется галочка на кнопке
             {
                 settings.setBank(new MonoBankCurrencyService());
+                savedSettings.addSetting(settings.getChatId(), settings);
                 System.out.println("answer: " + answer);
             }
             case "nbu" -> {
                 settings.setBank(new NBUCurrencyService());
+                savedSettings.addSetting(settings.getChatId(), settings);
                 System.out.println("answer: " + answer);
             }
             default -> {
                 settings.setBank(new PrivatBankCurrencyService());
+                savedSettings.addSetting(settings.getChatId(), settings);
                 System.out.println("answer: " + answer);
             }
         }

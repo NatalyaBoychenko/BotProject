@@ -11,12 +11,22 @@ public class Savingettings {
     }
 
 
-    public boolean contains(long chatId) {
-        return chatSettings.stream().anyMatch(chatSetting -> chatSetting.getChatId() == chatId);
+
+
+    public boolean containsSettingsForConcreteUser(long chatId) {
+        for (ChatSettings chatSetting : chatSettings){
+            if(chatSetting.getChatId() == chatId){
+                return true;
+            }
+        }
+
+        return false;
+
+//        return chatSettings.stream().anyMatch(chatSetting -> chatSetting.getChatId() == chatId);
     }
 
 
-    public void add(long chatId, ChatSettings chatSetting) {
+    public void addSetting(long chatId, ChatSettings chatSetting) {
         for (int i = 0; i < chatSettings.size(); i++) {
             if (chatSettings.get(i).getChatId() == chatId) {
                 chatSettings.set(i, chatSetting);
@@ -27,7 +37,7 @@ public class Savingettings {
     }
 
 
-    public void delete(long chatId) {
+    public void deleteSetting(long chatId) {
         for (int i = 0; i < chatSettings.size(); i++) {
             if (chatSettings.get(i).getChatId() == chatId) {
                 chatSettings.remove(i);
@@ -37,7 +47,7 @@ public class Savingettings {
     }
 
 
-    public ChatSettings getSetting(long chatId) {
+    public ChatSettings getSettingForConcreteUser(long chatId) {
         for (ChatSettings chatSetting : chatSettings) {
             if (chatSetting.getChatId() == chatId) {
                 return chatSetting;
