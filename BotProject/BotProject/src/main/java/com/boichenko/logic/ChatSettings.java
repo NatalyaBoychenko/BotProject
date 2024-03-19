@@ -5,6 +5,9 @@ import com.boichenko.feature.currency.dto.CurrencyItem;
 import lombok.Data;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import static com.boichenko.feature.currency.dto.CurrencyItem.USD;
 
@@ -14,46 +17,40 @@ public class ChatSettings {
     private int roundDigit;
     private BankItem bank;
     private int reminderTime;
-    private CurrencyItem currency;
-    PrivatBankCurrencyService privat = new PrivatBankCurrencyService();
+    private List<CurrencyItem> currencies;
 
-    public ChatSettings() {
+    public ChatSettings(long chatId) {
+        this.chatId = chatId;
     }
 
-    public ChatSettings(int roundDigit, BankItem bank, int reminderTime, CurrencyItem currency) {
-        this.roundDigit = roundDigit;
-        this.bank = bank;
-        this.reminderTime = reminderTime;
-        this.currency = currency;
-    }
 
-    public ChatSettings(long chatId, int roundDigit, BankItem bank, int reminderTime, CurrencyItem currency) {
+    public ChatSettings(long chatId, int roundDigit, BankItem bank, int reminderTime, List<CurrencyItem> currencies) {
         this.chatId = chatId;
         this.roundDigit = roundDigit;
         this.bank = bank;
         this.reminderTime = reminderTime;
-        this.currency = currency;
+        this.currencies = currencies;
     }
 
-    public String getDefault() {
-//        CurrencyItem currency = CurrencyItem.valueOf("USD");
-//        double currencyBuyRate =privat.getBuyRate(currency);
-//        double currencySellRate = privat.getSellRate(currency);
-//        String prettyText = new RoundRate().roundRate(currencyBuyRate, currencySellRate, currency, 2);
+public static ChatSettings getDefaultSettings(long chatId){
 
-        String template = new String("""
-                        Курс в ПриватБанк: USD/UAN 
-                        \nПокупка: ${buy} 
-                        \nПродаж: ${sell}
-                        """.getBytes(), StandardCharsets.UTF_8);
+    ChatSettings defaultSetting = new ChatSettings(chatId);
+    defaultSetting.setBank(new PrivatBankCurrencyService());
+    defaultSetting.setRoundDigit(2);
+    List<CurrencyItem> currencyList = new ArrayList<>();
 
-        String roundedBuyRate = String.format("%.2f", privat.getBuyRate(USD));
-        String roundedSellRate = String.format("%.2f", privat.getSellRate(USD));
+    currencyList.add(CurrencyItem.USD);
+    defaultSetting.setCurrencies(currencyList);
+    defaultSetting.setReminderTime(13);
+    return defaultSetting;
 
+//        return new ChatSettings(
+//                chatId,
+//                2,
+//                new PrivatBankCurrencyService(),
+//                0,
+//                new ArrayList<CurrencyItem>(List.of(USD)));
 
-        return template
-                .replace("${buy}", roundedBuyRate + "")
-                .replace("${sell}", roundedSellRate + "");
+}
 
-    }
 }

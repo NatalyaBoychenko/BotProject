@@ -4,7 +4,9 @@ import com.boichenko.feature.currency.MonoBankCurrencyService;
 import com.boichenko.feature.currency.NBUCurrencyService;
 import com.boichenko.feature.currency.PrivatBankCurrencyService;
 import com.boichenko.feature.telegram.command.Command;
+import com.boichenko.feature.telegram.emoji.Icon;
 import com.boichenko.logic.ChatSettings;
+import com.boichenko.logic.Savingettings;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -22,72 +24,18 @@ import static com.boichenko.feature.telegram.BotConstants.*;
 public class Reminder extends Command {
     private Long id;
     private String text;
-    ChatSettings settings = new ChatSettings();
 
-    public Reminder() {
-        super("reminder");
-    }
 
-    public void sendRemainder(String message, int time){
+//    public Reminder() {
+//        super("reminder");
+//    }
+
+    public void sendRemainder(ChatSettings settings, String message, int time){
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(()-> System.out.println(message), 0, settings.getReminderTime(), TimeUnit.HOURS);
     }
 
     public InlineKeyboardMarkup remainderKeyboard(){
-
-//        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-//        List<InlineKeyboardButton> buttons = new ArrayList<>();
-//
-//        for (int i = 0; i < 13; i++) {
-//            buttons.add(new InlineKeyboardButton());
-//        }
-//
-//        for (int i = 0; i < 10; i++) {
-//            buttons.get(i).setText(String.valueOf(i+9));
-//            buttons.get(i).setCallbackData(String.valueOf(i+9));
-//        }
-//
-//        buttons.get(10).setText(CANCEL_REMINDER);
-//        buttons.get(10).setCallbackData("0");
-//
-//        buttons.get(11).setText(BACK);
-//        buttons.get(11).setCallbackData(BACK);
-//
-//        buttons.get(12).setText(HOME);
-//        buttons.get(12).setCallbackData(HOME);
-//
-//        List<InlineKeyboardButton> row1 = new ArrayList<>();
-//        List<InlineKeyboardButton> row2 = new ArrayList<>();
-//        List<InlineKeyboardButton> row3 = new ArrayList<>();
-//        List<InlineKeyboardButton> row4 = new ArrayList<>();
-//        List<InlineKeyboardButton> row5 = new ArrayList<>();
-//
-//
-//        row1.add(buttons.get(0));
-//        row1.add(buttons.get(1));
-//        row1.add(buttons.get(2));
-//        row2.add(buttons.get(3));
-//        row2.add(buttons.get(4));
-//        row2.add(buttons.get(5));
-//        row3.add(buttons.get(6));
-//        row3.add(buttons.get(7));
-//        row3.add(buttons.get(8));
-//        row4.add(buttons.get(9));
-//        row4.add(buttons.get(10));
-//        row5.add(buttons.get(11));
-//        row5.add(buttons.get(12));
-//
-//
-//
-//        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-//        rowList.add(row1);
-//        rowList.add(row2);
-//        rowList.add(row3);
-//        rowList.add(row4);
-//        rowList.add(row5);
-//
-//        inlineKeyboardMarkup.setKeyboard(rowList);
-
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Arrays.asList(
                 InlineKeyboardButton.builder().text("9").callbackData("9").build(),
@@ -109,8 +57,8 @@ public class Reminder extends Command {
                 InlineKeyboardButton.builder().text(CANCEL_REMINDER).callbackData("0").build()
         ));
         buttons.add(Arrays.asList(
-                InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build(),
-                InlineKeyboardButton.builder().text(HOME).callbackData(HOME).build()
+                InlineKeyboardButton.builder().text(Icon.BACK.get()).callbackData("BACK").build(),
+                InlineKeyboardButton.builder().text(Icon.HOME.get()).callbackData("HOME").build()
         ));
 
         InlineKeyboardMarkup keyboard = InlineKeyboardMarkup.builder().keyboard(buttons).build();
@@ -121,53 +69,67 @@ public class Reminder extends Command {
 
 
     @Override
-    public void handleCallback(Update update) {
+    public void handleCallback(ChatSettings settings, Savingettings savedSettings, Update update) {
         String answer = update.getCallbackQuery().getData();
 
         switch (answer){
-            case "9":
-                //появляется галочка на кнопке
+            case "9": {
                 settings.setReminderTime(9);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "10":
+            }
+            case "10": {
                 settings.setReminderTime(10);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "11":
-                //появляется галочка на кнопке
+            }
+            case "11": {
                 settings.setReminderTime(11);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "12":
+            }
+            case "12": {
                 settings.setReminderTime(12);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "13":
-                //появляется галочка на кнопке
+            }
+            case "13": {
                 settings.setReminderTime(13);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "14":
+            }
+            case "14": {
                 settings.setReminderTime(14);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "15":
-                //появляется галочка на кнопке
+            }
+            case "15": {
                 settings.setReminderTime(15);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "16":
+            }
+            case "16": {
                 settings.setReminderTime(16);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "17":
-                //появляется галочка на кнопке
+            }
+            case "17": {
                 settings.setReminderTime(17);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "18":
+            }
+            case "18": {
                 settings.setReminderTime(18);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            default:
+            }
+            default: {
                 settings.setReminderTime(0);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
+            }
         }
     }
 
-    @Override
-    public void handleCallback(String update) {
 
-    }
 }

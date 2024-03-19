@@ -21,7 +21,7 @@ public class MonoBankCurrencyService extends BankItem implements CurrencyService
     @Override
     public double getBuyRate(CurrencyItem currency) {
 
-        List<CurrencyMonoItem> currencyItems = getRate(currency);
+        List<CurrencyMonoItem> currencyItems = getRate();
         float converted = 0;
 
         if (currency.name().equalsIgnoreCase("usd")) {
@@ -45,7 +45,7 @@ public class MonoBankCurrencyService extends BankItem implements CurrencyService
 
     @Override
     public double getSellRate(CurrencyItem currency) {
-        List<CurrencyMonoItem> currencyItems = getRate(currency);
+        List<CurrencyMonoItem> currencyItems = getRate();
 
         float converted = 0;
 
@@ -69,7 +69,7 @@ public class MonoBankCurrencyService extends BankItem implements CurrencyService
     }
 
 
-    private List<CurrencyMonoItem> getRate(CurrencyItem currency) {
+    private List<CurrencyMonoItem> getRate() {
 
         String json;
         try {
