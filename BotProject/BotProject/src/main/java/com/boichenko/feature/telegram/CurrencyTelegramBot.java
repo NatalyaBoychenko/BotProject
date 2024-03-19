@@ -169,13 +169,13 @@ private Savingettings savingSettings;
         String callbackQuery = update.getCallbackQuery().getData();
 
         if (callbackQuery.equals("privat") || callbackQuery.equals("mono") || callbackQuery.equals("nbu")) {
-            responseMessage.setReplyMarkup(bankName.bankKeyboard(settings));
+            responseMessage.setReplyMarkup(new Bank().bankKeyboard(settings));
             bankName.handleCallback(settings, savedSettings, update);
-            execute(EditMessageReplyMarkup.builder()
-                    .inlineMessageId("privat")
-                    .chatId(update.getCallbackQuery().getMessage().getChatId())
-                    .replyMarkup(bankName.bankKeyboard(settings))
-                    .build());
+//            execute(EditMessageReplyMarkup.builder()
+//                    .inlineMessageId("privat")
+//                    .chatId(update.getCallbackQuery().getMessage().getChatId())
+//                    .replyMarkup(new Bank().bankKeyboard(settings))
+//                    .build());
             System.out.println("choosen bank");
         } else
             if (callbackQuery.equals("2") || callbackQuery.equals("3") || callbackQuery.equals("4")) {

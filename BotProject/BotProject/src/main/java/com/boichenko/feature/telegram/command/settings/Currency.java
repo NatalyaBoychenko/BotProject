@@ -22,7 +22,7 @@ public class Currency extends Command {
 //    public Currency() {
 //        super("currency");
 //    }
-private String getCurrencyButton(ChatSettings settings, String name, Update update){
+private String getCurrencyButton(ChatSettings settings, String name){
 
      return settings.getCurrencies().contains(CurrencyItem.valueOf(name)) ?
             (Icon.CHECK.get() + name) : name.toString();
@@ -35,13 +35,13 @@ private String getCurrencyButton(ChatSettings settings, String name, Update upda
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Arrays.asList(
                 InlineKeyboardButton.builder()
-                        .text( getCurrencyButton(settings, USD.name() , update))
+                        .text( getCurrencyButton(settings, USD.name()))
                         .callbackData(USD.name())
                         .build()
         ));
         buttons.add(Arrays.asList(
                 InlineKeyboardButton.builder()
-                        .text( getCurrencyButton(settings, EUR.name() , update))
+                        .text( getCurrencyButton(settings, EUR.name() ))
                         .callbackData(EUR.name())
                         .build()
         ));
