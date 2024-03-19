@@ -34,7 +34,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     private Bank bankName;
     private Currency currency;
 private Savingettings savingSettings;
-private CurrencyModeService HashMapCurrencyModeService = CurrencyModeService.getInstance();
+
 
     public CurrencyTelegramBot(Savingettings savingSettings) {
         super(BOT_TOKEN);
@@ -171,11 +171,11 @@ private CurrencyModeService HashMapCurrencyModeService = CurrencyModeService.get
         if (callbackQuery.equals("privat") || callbackQuery.equals("mono") || callbackQuery.equals("nbu")) {
             responseMessage.setReplyMarkup(bankName.bankKeyboard(settings));
             bankName.handleCallback(settings, savedSettings, update);
-//            execute(EditMessageReplyMarkup.builder()
-//
-//                    .chatId(update.getCallbackQuery().getMessage().getChatId())
-//                    .replyMarkup(bankName.bankKeyboard(settings))
-//                    .build());
+            execute(EditMessageReplyMarkup.builder()
+                    .inlineMessageId("privat")
+                    .chatId(update.getCallbackQuery().getMessage().getChatId())
+                    .replyMarkup(bankName.bankKeyboard(settings))
+                    .build());
             System.out.println("choosen bank");
         } else
             if (callbackQuery.equals("2") || callbackQuery.equals("3") || callbackQuery.equals("4")) {
