@@ -22,8 +22,9 @@ private boolean isExecutedPrivat = false;
 private boolean isExecutedMono = false;
 private boolean isExecutedNBU = false;
 
-private String getBankButton(ChatSettings setting, String name){
-    return setting.getBank().getName().equals(name) ? Icon.CHECK.get() + name : name.toString();
+private String getBankButton(ChatSettings settings, String name){
+
+    return settings.getBank().getName().equals(name) ? (Icon.CHECK.get() + name) : name.toString();
 }
 
 
@@ -32,22 +33,22 @@ private String getBankButton(ChatSettings setting, String name){
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         buttons.add(Arrays.asList(
                 InlineKeyboardButton.builder()
-//                        .text(getBankButton(settings, "ПриватБанк"))
-                        .text("ПриватБанк")
+                        .text(getBankButton(settings, "ПриватБанк"))
+//                        .text("ПриватБанк")
                         .callbackData("privat")
                         .build()
         ));
         buttons.add(Arrays.asList(
                 InlineKeyboardButton.builder()
-//                        .text(getBankButton(settings, "MonoBank"))
-                        .text( "MonoBank")
+                        .text(getBankButton(settings, "MonoBank"))
+//                        .text( "MonoBank")
                         .callbackData("mono")
                         .build()
         ));
         buttons.add(Arrays.asList(
                 InlineKeyboardButton.builder()
-//                        .text(getBankButton(settings,"НБУ"))
-                        .text("НБУ")
+                        .text(getBankButton(settings, "НБУ"))
+//                        .text("НБУ")
                         .callbackData("nbu")
                         .build()
         ));

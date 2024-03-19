@@ -15,7 +15,7 @@ import static com.boichenko.feature.telegram.BotConstants.NBU_URL;
 
 public class NBUCurrencyService extends BankItem implements CurrencyService {
     public NBUCurrencyService() {
-        super("NBU");
+        super("НБУ");
     }
 
     @Override
@@ -63,6 +63,8 @@ public class NBUCurrencyService extends BankItem implements CurrencyService {
 
         return converted;
     }
+
+
 
 
     private List<CurrencyNBUItem> getRate(CurrencyItem currency) {

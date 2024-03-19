@@ -73,44 +73,61 @@ public class Reminder extends Command {
         String answer = update.getCallbackQuery().getData();
 
         switch (answer){
-            case "9":
-                //появляется галочка на кнопке
+            case "9": {
                 settings.setReminderTime(9);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "10":
+            }
+            case "10": {
                 settings.setReminderTime(10);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "11":
-                //появляется галочка на кнопке
+            }
+            case "11": {
                 settings.setReminderTime(11);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "12":
+            }
+            case "12": {
                 settings.setReminderTime(12);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "13":
-                //появляется галочка на кнопке
+            }
+            case "13": {
                 settings.setReminderTime(13);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "14":
+            }
+            case "14": {
                 settings.setReminderTime(14);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "15":
-                //появляется галочка на кнопке
+            }
+            case "15": {
                 settings.setReminderTime(15);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "16":
+            }
+            case "16": {
                 settings.setReminderTime(16);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "17":
-                //появляется галочка на кнопке
+            }
+            case "17": {
                 settings.setReminderTime(17);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            case "18":
+            }
+            case "18": {
                 settings.setReminderTime(18);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
-            default:
+            }
+            default: {
                 settings.setReminderTime(0);
+                savedSettings.addSetting(settings.getChatId(), settings);
                 break;
+            }
         }
     }
 

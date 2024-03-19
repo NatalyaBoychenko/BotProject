@@ -7,7 +7,9 @@ import com.boichenko.logic.ChatSettings;
 import com.boichenko.logic.Exchange;
 import com.boichenko.logic.Savingettings;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -32,6 +34,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
     private Bank bankName;
     private Currency currency;
 private Savingettings savingSettings;
+private CurrencyModeService HashMapCurrencyModeService = CurrencyModeService.getInstance();
 
     public CurrencyTelegramBot(Savingettings savingSettings) {
         super(BOT_TOKEN);
@@ -65,8 +68,18 @@ private Savingettings savingSettings;
             ChatSettings settings = savingSettings.containsSettingsForConcreteUser(chatId) ?
                     savingSettings.getSettingForConcreteUser(chatId) : ChatSettings.getDefaultSettings(chatId);
             handleKeyboard(update, settings, responseMessage);
-            handleSettingKeyboard(update, responseMessage, settings);
-            handleButtons(update, responseMessage, savingSettings, settings);
+
+            try {
+                handleSettingKeyboard(update, savingSettings, responseMessage, settings);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+
+            try {
+                handleButtons(update, responseMessage, savingSettings, settings);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
 
         } else {
             echoResponse(update, responseMessage);
@@ -99,7 +112,7 @@ private Savingettings savingSettings;
         }
     }
 
-    private void handleSettingKeyboard(Update update, SendMessage responseMessage, ChatSettings settings) {
+    private void handleSettingKeyboard(Update update, Savingettings savingSettings, SendMessage responseMessage, ChatSettings settings) throws TelegramApiException {
         String callbackQuery = update.getCallbackQuery().getData();
         Long chatId = update.getCallbackQuery().getMessage().getChatId();
 
@@ -115,11 +128,20 @@ private Savingettings savingSettings;
             responseMessage.setText("Банк");
             responseMessage.setReplyMarkup(new Bank().bankKeyboard(settings));
 
-        } else if (callbackQuery.equals("CURRENCY")) {
+
+        }  else if (callbackQuery.equals("privat") || callbackQuery.equals("mono") || callbackQuery.equals("nbu")) {
+            responseMessage.setReplyMarkup(bankName.bankKeyboard(settings));
+//            bankName.handleCallback(settings, savingSettings, update);
+            System.out.println("choosen bank");
+
+        }
+
+        else if (callbackQuery.equals("CURRENCY")) {
             responseMessage.setChatId(chatId);
 //            responseMessage.setText(new String("Валюта".getBytes(), StandardCharsets.UTF_8));
             responseMessage.setText("Валюта");
             responseMessage.setReplyMarkup(new Currency().currencyKeyboard());
+
 
         } else if (callbackQuery.equals("BACK")) {
             String s = new String(update.getCallbackQuery().getData().getBytes(), StandardCharsets.UTF_16);
@@ -143,13 +165,20 @@ private Savingettings savingSettings;
         }
     }
 
-    private void handleButtons(Update update, SendMessage responseMessage, Savingettings savedSettings, ChatSettings settings) {
+    private void handleButtons(Update update, SendMessage responseMessage, Savingettings savedSettings, ChatSettings settings) throws TelegramApiException {
         String callbackQuery = update.getCallbackQuery().getData();
 
         if (callbackQuery.equals("privat") || callbackQuery.equals("mono") || callbackQuery.equals("nbu")) {
+            responseMessage.setReplyMarkup(bankName.bankKeyboard(settings));
             bankName.handleCallback(settings, savedSettings, update);
+//            execute(EditMessageReplyMarkup.builder()
+//
+//                    .chatId(update.getCallbackQuery().getMessage().getChatId())
+//                    .replyMarkup(bankName.bankKeyboard(settings))
+//                    .build());
             System.out.println("choosen bank");
-        } else if (callbackQuery.equals("2") || callbackQuery.equals("3") || callbackQuery.equals("4")) {
+        } else
+            if (callbackQuery.equals("2") || callbackQuery.equals("3") || callbackQuery.equals("4")) {
             roundRate.handleCallback(settings, savedSettings, update);
             System.out.println("choosen rounded index");
         } else if (callbackQuery.equals("EUR") || callbackQuery.equals("USD")) {

@@ -11,4 +11,6 @@ public class CurrencyNBUItem {
     private String cc;
     @JsonProperty(value = "exchangedate")
     private String exchangeDate;
+
+
 }
